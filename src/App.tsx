@@ -1,8 +1,11 @@
+import MainLayout from "./layouts/MainLayout";
+import PasswordPage from "./pages/PasswordPage";
+
 function App() {
   return (
-    <main>
-      <h1>AU-RA Password Generator</h1>
-    </main>
+    <MainLayout>
+      <PasswordPage />
+    </MainLayout>
   );
 }
 
