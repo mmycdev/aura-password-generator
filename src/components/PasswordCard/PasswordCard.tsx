@@ -1,12 +1,26 @@
 import styles from "./PasswordCard.module.css";
 import { Copy } from "lucide-react";
+import { useState } from "react";
+import { generatePassword } from "../../services/password";
 
 function PasswordCard() {
+  const [password, setPassword] = useState("Click Generate");  
+  function handleGeneratePassword() {
+  const newPassword = generatePassword({
+    length: 16,
+    includeUppercase: true,
+    includeLowercase: true,
+    includeNumbers: true,
+    includeSymbols: true,
+  });
+
+  setPassword(newPassword);
+}
   return (
   <section className={styles.card}>
     <div className={styles.passwordHeader}>
       <span className={styles.password}>
-        hG8$L!x2Qm@9Pw#K
+     {password}
       </span>
 
       <button className={styles.copyButton}>
@@ -52,7 +66,10 @@ function PasswordCard() {
     <span>Symbols</span>
   </label>
     </div>
-    <button className={styles.generateButton}>
+    <button
+  className={styles.generateButton}
+  onClick={handleGeneratePassword}
+>
   Generate Password
     </button>
   </section>
