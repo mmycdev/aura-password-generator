@@ -32,6 +32,10 @@ function generatePassword(
     availableCharacters += SYMBOL_CHARACTERS;
   }
 
+if (availableCharacters.length === 0) {
+  return "";
+}
+
 let password = "";
 
 for (let index = 0; index < options.length; index++) {

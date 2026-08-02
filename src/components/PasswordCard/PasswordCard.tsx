@@ -6,16 +6,39 @@ import { generatePassword } from "../../services/password";
 function PasswordCard() {
   const [password, setPassword] = useState("Click Generate");  
   const [length, setLength] = useState(16);
+  const [options, setOptions] = useState({
+  includeUppercase: true,
+  includeLowercase: true,
+  includeNumbers: true,
+  includeSymbols: true,
+});
   function handleGeneratePassword() {
   const newPassword = generatePassword({
-    length,
-    includeUppercase: true,
-    includeLowercase: true,
-    includeNumbers: true,
-    includeSymbols: true,
-  });
+  length,
+  ...options,
+});
 
   setPassword(newPassword);
+}
+
+function handleOptionChange(
+  option: keyof typeof options,
+  checked: boolean,
+) {
+  setOptions((previousOptions) => {
+    const updatedOptions = {
+      ...previousOptions,
+      [option]: checked,
+    };
+
+    const enabledOptions = Object.values(updatedOptions).filter(Boolean).length;
+
+    if (enabledOptions === 0) {
+      return previousOptions;
+    }
+
+    return updatedOptions;
+  });
 }
   return (
   <section className={styles.card}>
@@ -49,23 +72,67 @@ function PasswordCard() {
 />
     </div>  
     <div className={styles.options}>
-  <label className={styles.option}>
-    <input type="checkbox" defaultChecked />
+<label className={styles.option}>
+    <input
+  type="checkbox"
+  checked={options.includeUppercase}
+  onChange={(event) =>
+  handleOptionChange(
+    "includeUppercase",
+    event.target.checked,
+  )
+}
+/>
     <span>Uppercase letters</span>
-  </label>
+</label>
 
   <label className={styles.option}>
-    <input type="checkbox" defaultChecked />
+<input
+  type="checkbox"
+  checked={options.includeLowercase}
+  onChange={(event) =>
+  handleOptionChange(
+    "includeLowercase",
+    event.target.checked,
+  )
+}
+/>
     <span>Lowercase letters</span>
   </label>
 
   <label className={styles.option}>
-    <input type="checkbox" defaultChecked />
+<input
+
+  type="checkbox"
+
+  checked={options.includeNumbers}
+
+  onChange={(event) =>
+  handleOptionChange(
+    "includeNumbers",
+    event.target.checked,
+  )
+}
+
+/>
     <span>Numbers</span>
   </label>
 
   <label className={styles.option}>
-    <input type="checkbox" defaultChecked />
+<input
+
+  type="checkbox"
+
+  checked={options.includeSymbols}
+
+  onChange={(event) =>
+  handleOptionChange(
+    "includeSymbols",
+    event.target.checked,
+  )
+}
+
+/>
     <span>Symbols</span>
   </label>
     </div>
