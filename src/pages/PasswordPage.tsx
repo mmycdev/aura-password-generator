@@ -1,4 +1,5 @@
 import styles from "./PasswordPage.module.css";
+import PasswordCard from "../components/PasswordCard";
 
 function PasswordPage() {
   return (
@@ -8,6 +9,8 @@ function PasswordPage() {
       <h2>Password Generator</h2>
 
       <p>Generate secure passwords instantly.</p>
+
+      <PasswordCard />
     </section>
   );
 }
