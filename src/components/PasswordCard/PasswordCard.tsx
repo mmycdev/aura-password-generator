@@ -5,9 +5,10 @@ import { generatePassword } from "../../services/password";
 
 function PasswordCard() {
   const [password, setPassword] = useState("Click Generate");  
+  const [length, setLength] = useState(16);
   function handleGeneratePassword() {
   const newPassword = generatePassword({
-    length: 16,
+    length,
     includeUppercase: true,
     includeLowercase: true,
     includeNumbers: true,
@@ -33,17 +34,19 @@ function PasswordCard() {
   <div className={styles.lengthHeader}>
     <span>Password Length</span>
 
-    <span className={styles.lengthValue}>16</span>
+    <span className={styles.lengthValue}>{length}</span>
   </div>
 
   <input
-    className={styles.slider}
-    type="range"
-    min="8"
-    max="32"
-    value="16"
-    readOnly
-  />
+  className={styles.slider}
+  type="range"
+  min={8}
+  max={32}
+  value={length}
+  onChange={(event) => {
+    setLength(Number(event.target.value));
+  }}
+/>
     </div>  
     <div className={styles.options}>
   <label className={styles.option}>
