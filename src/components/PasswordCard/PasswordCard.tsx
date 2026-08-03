@@ -4,7 +4,15 @@ import { useState } from "react";
 import { generatePassword } from "../../services/password";
 
 function PasswordCard() {
-  const [password, setPassword] = useState("Click Generate");  
+const [password, setPassword] = useState(() =>
+  generatePassword({
+    length: 16,
+    includeUppercase: true,
+    includeLowercase: true,
+    includeNumbers: true,
+    includeSymbols: true,
+  }),
+);
   const [length, setLength] = useState(16);
   const [options, setOptions] = useState({
   includeUppercase: true,
@@ -12,13 +20,18 @@ function PasswordCard() {
   includeNumbers: true,
   includeSymbols: true,
 });
-  function handleGeneratePassword() {
+
+function updatePassword() {
   const newPassword = generatePassword({
-  length,
-  ...options,
-});
+    length,
+    ...options,
+  });
 
   setPassword(newPassword);
+}
+
+  function handleGeneratePassword() {
+  updatePassword();
 }
 
 function handleOptionChange(
