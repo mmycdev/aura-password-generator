@@ -13,6 +13,7 @@ const [password, setPassword] = useState(() =>
     includeSymbols: true,
   }),
 );
+const [copied, setCopied] = useState(false);
   const [length, setLength] = useState(16);
   const [options, setOptions] = useState({
   includeUppercase: true,
@@ -53,6 +54,15 @@ function handleOptionChange(
     return updatedOptions;
   });
 }
+async function handleCopyPassword() {
+  await navigator.clipboard.writeText(password);
+
+  setCopied(true);
+
+  setTimeout(() => {
+    setCopied(false);
+  }, 2000);
+}
   return (
   <section className={styles.card}>
     <div className={styles.passwordHeader}>
@@ -60,10 +70,15 @@ function handleOptionChange(
      {password}
       </span>
 
-      <button className={styles.copyButton}>
+      <button
+  className={styles.copyButton}
+  onClick={handleCopyPassword}
+>
         <Copy size={18} />
 
-        <span>Copy</span>
+        <span>
+  {copied ? "Copied!" : "Copy"}
+</span>
       </button>
     </div>
     <div className={styles.lengthSection}>
