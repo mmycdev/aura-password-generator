@@ -2,24 +2,19 @@ import styles from "./PasswordCard.module.css";
 import { Copy } from "lucide-react";
 import { useState } from "react";
 import { generatePassword } from "../../services/password";
+import { DEFAULT_PASSWORD_OPTIONS } from "../../config/password";
 
 function PasswordCard() {
 const [password, setPassword] = useState(() =>
-  generatePassword({
-    length: 16,
-    includeUppercase: true,
-    includeLowercase: true,
-    includeNumbers: true,
-    includeSymbols: true,
-  }),
+  generatePassword(DEFAULT_PASSWORD_OPTIONS),
 );
 const [copied, setCopied] = useState(false);
-  const [length, setLength] = useState(16);
-  const [options, setOptions] = useState({
-  includeUppercase: true,
-  includeLowercase: true,
-  includeNumbers: true,
-  includeSymbols: true,
+const [length, setLength] = useState(DEFAULT_PASSWORD_OPTIONS.length);
+ const [options, setOptions] = useState({
+  includeUppercase: DEFAULT_PASSWORD_OPTIONS.includeUppercase,
+  includeLowercase: DEFAULT_PASSWORD_OPTIONS.includeLowercase,
+  includeNumbers: DEFAULT_PASSWORD_OPTIONS.includeNumbers,
+  includeSymbols: DEFAULT_PASSWORD_OPTIONS.includeSymbols,
 });
 
 function updatePassword() {
