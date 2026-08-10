@@ -7,7 +7,7 @@ type DefaultPasswordOptions = {
 };
 
 export const DEFAULT_PASSWORD_OPTIONS: DefaultPasswordOptions = {
-  length: 16,
+  length: 20,
   includeUppercase: true,
   includeLowercase: true,
   includeNumbers: true,

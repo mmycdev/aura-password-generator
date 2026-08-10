@@ -3,6 +3,7 @@ import { Copy } from "lucide-react";
 import { useState } from "react";
 import { generatePassword } from "../../services/password";
 import { DEFAULT_PASSWORD_OPTIONS } from "../../config/password";
+import { calculatePasswordStrength } from "../../services/password/calculatePasswordStrength";
 
 function PasswordCard() {
 const [password, setPassword] = useState(() =>
@@ -10,12 +11,14 @@ const [password, setPassword] = useState(() =>
 );
 const [copied, setCopied] = useState(false);
 const [length, setLength] = useState(DEFAULT_PASSWORD_OPTIONS.length);
- const [options, setOptions] = useState({
+const [options, setOptions] = useState({
   includeUppercase: DEFAULT_PASSWORD_OPTIONS.includeUppercase,
   includeLowercase: DEFAULT_PASSWORD_OPTIONS.includeLowercase,
   includeNumbers: DEFAULT_PASSWORD_OPTIONS.includeNumbers,
   includeSymbols: DEFAULT_PASSWORD_OPTIONS.includeSymbols,
 });
+
+const strength = calculatePasswordStrength(password);
 
 function updatePassword() {
   const newPassword = generatePassword({
@@ -76,25 +79,29 @@ async function handleCopyPassword() {
 </span>
       </button>
     </div>
-    <div className={styles.lengthSection}>
-  <div className={styles.lengthHeader}>
-    <span>Password Length</span>
 
-    <span className={styles.lengthValue}>{length}</span>
-  </div>
+<div className={styles.strengthSection}>
+  <div className={styles.strengthHeader}>
+  <span className={styles.strengthTitle}>
+    Strength
+  </span>
 
-  <input
-  className={styles.slider}
-  type="range"
-  min={8}
-  max={32}
-  value={length}
-  onChange={(event) => {
-    setLength(Number(event.target.value));
-  }}
-/>
-    </div>  
-    <div className={styles.options}>
+  <span className={styles.strengthLabel}>
+    {strength.label}
+  </span>
+</div>
+
+<div className={styles.strengthBar}>
+  <div
+    className={styles.strengthFill}
+    style={{
+      width: `${strength.score}%`,
+    }}
+  />
+</div>
+</div>
+
+<div className={styles.options}>
 <label className={styles.option}>
     <input
   type="checkbox"
@@ -159,8 +166,31 @@ async function handleCopyPassword() {
     <span>Symbols</span>
   </label>
     </div>
-    <button
+
+<div className={styles.lengthSection}>
+  <div className={styles.lengthHeader}>
+    <span>Password Length</span>
+
+    <span className={styles.lengthValue}>{length}</span>
+  </div>
+
+  <div className={styles.sliderContainer}>
+  <input
+  className={styles.slider}
+  type="range"
+  min={8}
+  max={32}
+  value={length}
+  onChange={(event) => {
+    setLength(Number(event.target.value));
+  }}
+/>
+</div>
+    </div>  
+
+<button
   className={styles.generateButton}
+
   onClick={handleGeneratePassword}
 >
   Generate Password
