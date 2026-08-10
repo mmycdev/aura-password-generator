@@ -11,7 +11,7 @@ Generate strong and secure passwords instantly with a clean, minimal and intuiti
 </p>
 
 <p align="center">
-  <img src="./docs/screenshot.png" alt="AU-RA Password Generator" width="700">
+  <img src="./docs/screenshot.png" alt="AU-RA Password Generator" width="600">
 </p>
 
 ---
