@@ -1,10 +1,15 @@
 import styles from "./PasswordPage.module.css";
 import PasswordCard from "../components/PasswordCard";
+import logo from "/src/assets/logo.svg";
 
 function PasswordPage() {
   return (
     <section className={styles.container}>
-      <h1>AU-RA</h1>
+      <img
+  src={logo}
+  alt="AU-RA"
+  className={styles.logo}
+/>
 
       <h2>Password Generator</h2>
 

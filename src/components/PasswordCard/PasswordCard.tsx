@@ -6,197 +6,168 @@ import { DEFAULT_PASSWORD_OPTIONS } from "../../config/password";
 import { calculatePasswordStrength } from "../../services/password/calculatePasswordStrength";
 
 function PasswordCard() {
-const [password, setPassword] = useState(() =>
-  generatePassword(DEFAULT_PASSWORD_OPTIONS),
-);
-const [copied, setCopied] = useState(false);
-const [length, setLength] = useState(DEFAULT_PASSWORD_OPTIONS.length);
-const [options, setOptions] = useState({
-  includeUppercase: DEFAULT_PASSWORD_OPTIONS.includeUppercase,
-  includeLowercase: DEFAULT_PASSWORD_OPTIONS.includeLowercase,
-  includeNumbers: DEFAULT_PASSWORD_OPTIONS.includeNumbers,
-  includeSymbols: DEFAULT_PASSWORD_OPTIONS.includeSymbols,
-});
-
-const strength = calculatePasswordStrength(password);
-
-function updatePassword() {
-  const newPassword = generatePassword({
-    length,
-    ...options,
+  const [password, setPassword] = useState(() =>
+    generatePassword(DEFAULT_PASSWORD_OPTIONS),
+  );
+  const [copied, setCopied] = useState(false);
+  const [length, setLength] = useState(DEFAULT_PASSWORD_OPTIONS.length);
+  const [options, setOptions] = useState({
+    includeUppercase: DEFAULT_PASSWORD_OPTIONS.includeUppercase,
+    includeLowercase: DEFAULT_PASSWORD_OPTIONS.includeLowercase,
+    includeNumbers: DEFAULT_PASSWORD_OPTIONS.includeNumbers,
+    includeSymbols: DEFAULT_PASSWORD_OPTIONS.includeSymbols,
   });
 
-  setPassword(newPassword);
-}
+  const strength = calculatePasswordStrength(password);
+
+  function updatePassword() {
+    const newPassword = generatePassword({
+      length,
+      ...options,
+    });
+
+    setPassword(newPassword);
+  }
 
   function handleGeneratePassword() {
-  updatePassword();
-}
+    updatePassword();
+  }
 
-function handleOptionChange(
-  option: keyof typeof options,
-  checked: boolean,
-) {
-  setOptions((previousOptions) => {
-    const updatedOptions = {
-      ...previousOptions,
-      [option]: checked,
-    };
+  function handleOptionChange(option: keyof typeof options, checked: boolean) {
+    setOptions((previousOptions) => {
+      const updatedOptions = {
+        ...previousOptions,
+        [option]: checked,
+      };
 
-    const enabledOptions = Object.values(updatedOptions).filter(Boolean).length;
+      const enabledOptions =
+        Object.values(updatedOptions).filter(Boolean).length;
 
-    if (enabledOptions === 0) {
-      return previousOptions;
-    }
+      if (enabledOptions === 0) {
+        return previousOptions;
+      }
 
-    return updatedOptions;
-  });
-}
-async function handleCopyPassword() {
-  await navigator.clipboard.writeText(password);
+      return updatedOptions;
+    });
+  }
+  async function handleCopyPassword() {
+    await navigator.clipboard.writeText(password);
 
-  setCopied(true);
+    setCopied(true);
 
-  setTimeout(() => {
-    setCopied(false);
-  }, 2000);
-}
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  }
   return (
-  <section className={styles.card}>
-    <div className={styles.passwordHeader}>
-      <span className={styles.password}>
-     {password}
-      </span>
+    <section className={styles.card}>
+      <div className={styles.passwordHeader}>
+        <span className={styles.password}>{password}</span>
+
+        <button className={styles.copyButton} onClick={handleCopyPassword}>
+          <Copy size={18} />
+
+          <span>{copied ? "Copied!" : "Copy"}</span>
+        </button>
+      </div>
+
+      <div className={styles.strengthSection}>
+        <div className={styles.strengthHeader}>
+          <span className={styles.strengthTitle}>Strength</span>
+
+          <span className={styles.strengthLabel}>{strength.label}</span>
+        </div>
+
+        <div className={styles.strengthBar}>
+          <div
+            className={styles.strengthFill}
+            style={{
+              width: `${strength.score}%`,
+            }}
+          />
+        </div>
+      </div>
+
+      <div className={styles.options}>
+        <label className={styles.option}>
+          <input
+            type="checkbox"
+            checked={options.includeUppercase}
+            onChange={(event) =>
+              handleOptionChange("includeUppercase", event.target.checked)
+            }
+          />
+          <span>Uppercase letters</span>
+        </label>
+
+        <label className={styles.option}>
+          <input
+            type="checkbox"
+            checked={options.includeLowercase}
+            onChange={(event) =>
+              handleOptionChange("includeLowercase", event.target.checked)
+            }
+          />
+          <span>Lowercase letters</span>
+        </label>
+
+        <label className={styles.option}>
+          <input
+            type="checkbox"
+
+            checked={options.includeNumbers}
+
+            onChange={(event) =>
+              handleOptionChange("includeNumbers", event.target.checked)
+            }
+          />
+          <span>Numbers</span>
+        </label>
+
+        <label className={styles.option}>
+          <input
+            type="checkbox"
+
+            checked={options.includeSymbols}
+
+            onChange={(event) =>
+              handleOptionChange("includeSymbols", event.target.checked)
+            }
+          />
+          <span>Symbols</span>
+        </label>
+      </div>
+
+      <div className={styles.lengthSection}>
+        <div className={styles.lengthHeader}>
+          <span>Password Length</span>
+
+          <span className={styles.lengthValue}>{length}</span>
+        </div>
+
+        <div className={styles.sliderContainer}>
+          <input
+            className={styles.slider}
+            type="range"
+            min={8}
+            max={32}
+            value={length}
+            onChange={(event) => {
+              setLength(Number(event.target.value));
+            }}
+          />
+        </div>
+      </div>
 
       <button
-  className={styles.copyButton}
-  onClick={handleCopyPassword}
->
-        <Copy size={18} />
+        className={styles.generateButton}
 
-        <span>
-  {copied ? "Copied!" : "Copy"}
-</span>
+        onClick={handleGeneratePassword}
+      >
+        Generate Password
       </button>
-    </div>
-
-<div className={styles.strengthSection}>
-  <div className={styles.strengthHeader}>
-  <span className={styles.strengthTitle}>
-    Strength
-  </span>
-
-  <span className={styles.strengthLabel}>
-    {strength.label}
-  </span>
-</div>
-
-<div className={styles.strengthBar}>
-  <div
-    className={styles.strengthFill}
-    style={{
-      width: `${strength.score}%`,
-    }}
-  />
-</div>
-</div>
-
-<div className={styles.options}>
-<label className={styles.option}>
-    <input
-  type="checkbox"
-  checked={options.includeUppercase}
-  onChange={(event) =>
-  handleOptionChange(
-    "includeUppercase",
-    event.target.checked,
-  )
-}
-/>
-    <span>Uppercase letters</span>
-</label>
-
-  <label className={styles.option}>
-<input
-  type="checkbox"
-  checked={options.includeLowercase}
-  onChange={(event) =>
-  handleOptionChange(
-    "includeLowercase",
-    event.target.checked,
-  )
-}
-/>
-    <span>Lowercase letters</span>
-  </label>
-
-  <label className={styles.option}>
-<input
-
-  type="checkbox"
-
-  checked={options.includeNumbers}
-
-  onChange={(event) =>
-  handleOptionChange(
-    "includeNumbers",
-    event.target.checked,
-  )
-}
-
-/>
-    <span>Numbers</span>
-  </label>
-
-  <label className={styles.option}>
-<input
-
-  type="checkbox"
-
-  checked={options.includeSymbols}
-
-  onChange={(event) =>
-  handleOptionChange(
-    "includeSymbols",
-    event.target.checked,
-  )
-}
-
-/>
-    <span>Symbols</span>
-  </label>
-    </div>
-
-<div className={styles.lengthSection}>
-  <div className={styles.lengthHeader}>
-    <span>Password Length</span>
-
-    <span className={styles.lengthValue}>{length}</span>
-  </div>
-
-  <div className={styles.sliderContainer}>
-  <input
-  className={styles.slider}
-  type="range"
-  min={8}
-  max={32}
-  value={length}
-  onChange={(event) => {
-    setLength(Number(event.target.value));
-  }}
-/>
-</div>
-    </div>  
-
-<button
-  className={styles.generateButton}
-
-  onClick={handleGeneratePassword}
->
-  Generate Password
-    </button>
-  </section>
-);
+    </section>
+  );
 }
 
 export default PasswordCard;

@@ -11,9 +11,7 @@ const LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
 const NUMBER_CHARACTERS = "0123456789";
 const SYMBOL_CHARACTERS = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
-function generatePassword(
-  options: GeneratePasswordOptions,
-): string {
+function generatePassword(options: GeneratePasswordOptions): string {
   let availableCharacters = "";
 
   if (options.includeUppercase) {
@@ -32,20 +30,18 @@ function generatePassword(
     availableCharacters += SYMBOL_CHARACTERS;
   }
 
-if (availableCharacters.length === 0) {
-  return "";
-}
+  if (availableCharacters.length === 0) {
+    return "";
+  }
 
-let password = "";
+  let password = "";
 
-for (let index = 0; index < options.length; index++) {
-    const randomIndex = Math.floor(
-    Math.random() * availableCharacters.length
-);
+  for (let index = 0; index < options.length; index++) {
+    const randomIndex = Math.floor(Math.random() * availableCharacters.length);
 
     const randomCharacter = availableCharacters[randomIndex];
     password += randomCharacter;
-}
+  }
 
   return password;
 }
