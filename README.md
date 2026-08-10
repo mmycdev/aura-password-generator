@@ -10,6 +10,10 @@ AU-RA Password Generator
 Generate strong and secure passwords instantly with a clean, minimal and intuitive interface.
 </p>
 
+<p align="center">
+  <img src="./docs/screenshot.png" alt="AU-RA Password Generator" width="700">
+</p>
+
 ---
 
 ## ✨ Features
