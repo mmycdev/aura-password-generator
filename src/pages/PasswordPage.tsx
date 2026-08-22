@@ -5,11 +5,7 @@ import logo from "/src/assets/logo.svg";
 function PasswordPage() {
   return (
     <section className={styles.container}>
-      <img
-  src={logo}
-  alt="AU-RA"
-  className={styles.logo}
-/>
+      <img src={logo} alt="AU-RA" className={styles.logo} />
 
       <h2>Password Generator</h2>
 

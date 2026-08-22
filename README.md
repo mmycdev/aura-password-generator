@@ -11,6 +11,12 @@ Generate strong and secure passwords instantly with a clean, minimal and intuiti
 </p>
 
 <p align="center">
+  <a href="https://aura-password-generator.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-AU--RA%20Password%20Generator-6c63ff?style=for-the-badge" alt="Live Demo" />
+  </a>
+</p>
+
+<p align="center">
   <img src="./docs/screenshot.png" alt="AU-RA Password Generator" width="500">
 </p>
 
